@@ -13,29 +13,7 @@
 		</layout>
 	</appender>
 
-	<!-- File Appender -->
-	<appender name="fileAppender" class="org.apache.log4j.RollingFileAppender">
-		<param name="append" value="false" />
-		<param name="maxFileSize" value="100KB" />
-		<param name="maxBackupIndex" value="5" />
-		<!-- For Tomcat -->
-		<!-- param name="file" value="${catalina.home}/logs/myStruts1App.log" / -->
-		<param name="file"
-			value="C:/Users/samba.mitra/Desktop/Samba/Softwares/apache-tomcat-8.0.27-windows-x64/apache-tomcat-8.0.27/logs/application.log" />
-		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %-5p %c:%L - %m%n" />
-		</layout>
-	</appender>
-
-	<!-- This file appender is used to output aggregated performance statistics -->
-	<appender name="perfFileAppender" class="org.apache.log4j.FileAppender">
-		<param name="File"
-			value="C:/Users/samba.mitra/Desktop/Samba/Softwares/apache-tomcat-8.0.27-windows-x64/apache-tomcat-8.0.27/logs/perfStats.log" />
-		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %-5p %c:%L - %m%n" />
-		</layout>
-	</appender>
-
+	
 	<!-- Perf4j Appender -->
 	<!-- The TimeSlice option is used to determine the time window for which 
 		all received StopWatch logs are aggregated to create a single GroupedTimingStatistics
