@@ -61,7 +61,92 @@ function generatePdf() {
 	document.forms[1].submit();
 }
 
+/*
+$(window).on('beforeunload', function() {
+		return function(){
+	      var dialog = $('<p> Are you want to Logout ?</p>').dialog({
+              buttons: {
+                  "Continue with deletion of details": function() {},
+                  "Return without any loss of information":  function() {},
+                  "Continue with deletion of details":  function() {
+                  },
+                  "Return without any loss of information":  function() {
+                      dialog.dialog('close');
+                  
+                  }
+              }
+          });	
+		}
+		});  
+*/
+
+logoutmain=null;
+function logoutp(){
+$(function() {
+	var dialog = $('<p> Are you want to Logout ?</p>').dialog({
+        buttons: {
+            "Continue with deletion of details": function() {},
+            "Return without any loss of information":  function() {},
+            "Continue with deletion of details":  function() {
+            	document.forms[0].action = "../logout";
+        		document.forms[0].submit();
+            	dialog.dialog('close');
+                },
+            
+            "Return without any loss of information":  function() {
+              dialog.dialog('close');
+            }
+        }
+    });
+});
+
+}
+logoutmain=logoutp;
+
+var validNavigation = false;
+function wireUpEvents() {
+
+  window.onbeforeunload = function() {
+      if (!validNavigation) {
+      return "Closing this window will erase all data";
+      }
+  }
+  $("a").bind("click", function() {
+     validNavigation = true;
+  });
+  $("form").bind("submit", function() {
+     validNavigation = true;
+  });
+  $("input[type=submit]").bind("click", function() {
+	    validNavigation = true;
+  });
+  $("button").bind("click", function() {
+	    validNavigation = true;
+  });
+  $("input[type=button]").bind("click", function() {
+	    validNavigation = true;
+  });
+ 
+  $('.backLink').click(function(){
+	  validNavigation = true;
+  });
+  $('window.back').click(function(){
+	  validNavigation = true;
+  });
+  
+  
+}
+
+$(document).ready(function() {
+    wireUpEvents();  
+});
+
+
+
 function logout() {
-	document.forms[0].action = "../logout";
-	document.forms[0].submit();
+	logoutmain();
+	//	document.forms[0].action = "../logout";
+		//document.forms[0].submit();
+	
+	
 }
