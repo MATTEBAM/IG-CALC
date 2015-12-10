@@ -33,6 +33,7 @@ public class NSPController {
     private static final int MQP_THRESHOLD = 520;
     private static final double REVISED_STARTING_AMT_FACTOR = 0.07;
     private static final double NEW_STATE_PENSION_FACTOR = 0.08;
+    private static final String YEAR_SIXTEEN_SEVENTEEN = "2016/17";
 
     @ModelAttribute(Constants.NSP_DETAILS)
     public NSPDetails populateNspDetails() {
@@ -86,6 +87,12 @@ public class NSPController {
         // Revised starting amount
         populateRevisedStartingAmount(nspDetails);
 
+        // Re-valued Starting Amount at Date of Entitlement
+        populateRevaluedStartingAmount(nspDetails);
+        
+        // NSP Components
+        populateNspComponents(nspDetails);
+        
         return "nsp_calculation";
     }
 
@@ -134,8 +141,61 @@ public class NSPController {
         double revisedStartingAmt = Math.max((oldRulesAmt + (totalWeeks * REVISED_STARTING_AMT_FACTOR)),
                 (newRulesAmt + (totalWeeks * NEW_STATE_PENSION_FACTOR)));
         nspDetails.setRevisedStartingAmt(String.valueOf(revisedStartingAmt));
+        
     }
 
+    
+    private static void populateRevaluedStartingAmount(NSPDetails nspDetails) {
+    	//FBR032
+        String upratingYear = nspDetails.getUpratingYear();
+        
+        if(upratingYear.equalsIgnoreCase(YEAR_SIXTEEN_SEVENTEEN)){
+        	nspDetails.setRevaluedTotal(nspDetails.getRevisedStartingAmt());
+        	nspDetails.setNewStatePensionRevalued(nspDetails.getNewStatePensionRevised());
+        	nspDetails.setProtectedPaymentRevalued(nspDetails.getProtectedPaymentRevised());
+        }                
+    }
+    
+  
+    private static void populateNspComponents(NSPDetails nspDetails) {
+    	//FBR044-045-046-047
+    	/*nspDetails.setNewStatePensionNsp(nspDetails.getNewStatePensionNsp());
+    	nspDetails.setProtectedPaymentNsp(nspDetails.getProtectedPaymentNsp());
+    	nspDetails.setRreLowerNsp(nspDetails.getRreLowerNsp());
+    	nspDetails.setRreHigherNsp(nspDetails.getRreHigherNsp());
+    	nspDetails.setProtectedPaymentInhNsp(nspDetails.getProtectedPaymentInhNsp());
+    	nspDetails.setSpTopUpInhNsp(nspDetails.getSpTopUpInhNsp());
+    	nspDetails.setApInhNsp(nspDetails.getApInhNsp());
+    	nspDetails.setGrbInhNsp(nspDetails.getGrbInhNsp());
+    	
+    	nspDetails.setPsodDebitNsp(nspDetails.getPsodDebitNsp());
+    	nspDetails.setPsodCreditNsp(nspDetails.getPsodCreditNsp());
+    	
+    	nspDetails.setNewStatePensionEspNsp(nspDetails.getNewStatePensionEspNsp());
+    	nspDetails.setProtectedPaymentEspNsp(nspDetails.getProtectedPaymentEspNsp());
+    	nspDetails.setApEspInhNsp(nspDetails.getApEspInhNsp());
+    	nspDetails.setGrbEspInhNsp(nspDetails.getGrbEspInhNsp());
+    	nspDetails.setBpEspInhNsp(nspDetails.getBpEspInhNsp());*/
+    	
+    	Double dbTotalWeeklySPAward= (NumberUtils.toDouble(nspDetails.getNewStatePensionNsp())
+    			+NumberUtils.toDouble(nspDetails.getProtectedPaymentNsp())
+    			+NumberUtils.toDouble(nspDetails.getRreLowerNsp())
+    			+NumberUtils.toDouble(nspDetails.getRreHigherNsp())
+    			+NumberUtils.toDouble(nspDetails.getProtectedPaymentInhNsp())
+    			+NumberUtils.toDouble(nspDetails.getSpTopUpInhNsp())
+    			+NumberUtils.toDouble(nspDetails.getApInhNsp())
+    			+NumberUtils.toDouble(nspDetails.getGrbInhNsp())
+    			+NumberUtils.toDouble(nspDetails.getPsodCreditNsp())
+    			+NumberUtils.toDouble(nspDetails.getNewStatePensionEspNsp())
+    			+NumberUtils.toDouble(nspDetails.getProtectedPaymentEspNsp())
+    			+NumberUtils.toDouble(nspDetails.getApEspInhNsp())
+    			+NumberUtils.toDouble(nspDetails.getGrbEspInhNsp())
+    			+NumberUtils.toDouble(nspDetails.getBpEspInhNsp())
+    			-NumberUtils.toDouble(nspDetails.getPsodDebitNsp()));
+    	
+    	nspDetails.setTotalWeeklySPAward(dbTotalWeeklySPAward.toString());
+    }
+    
     /**
      * Pre 2016 Pre-75 Weeks Calculation
      * 
