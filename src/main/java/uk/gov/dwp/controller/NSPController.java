@@ -149,7 +149,7 @@ public class NSPController {
     	//FBR032
         String upratingYear = nspDetails.getUpratingYear();
         
-        if(upratingYear.equalsIgnoreCase(YEAR_SIXTEEN_SEVENTEEN)){
+        if(upratingYear!= null && upratingYear.equalsIgnoreCase(YEAR_SIXTEEN_SEVENTEEN)){
         	nspDetails.setRevaluedTotal(nspDetails.getRevisedStartingAmt());
         	nspDetails.setNewStatePensionRevalued(nspDetails.getNewStatePensionRevised());
         	nspDetails.setProtectedPaymentRevalued(nspDetails.getProtectedPaymentRevised());
