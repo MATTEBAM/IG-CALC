@@ -44,6 +44,7 @@ public class PdfController {
         Post75UsaDetails post16UsaDetails = session.getAttribute(Constants.POST_16_USA_DETAILS) != null
                 ? (Post75UsaDetails) session.getAttribute(Constants.POST_16_USA_DETAILS) : new Post75UsaDetails();
 
+               //test commit
         // Add all the details to model for Pdf generation
         model.addAttribute(Constants.PRE_75_EU_DETAILS, pre75EuDetails);
         model.addAttribute(Constants.POST_75_EU_DETAILS, post75EuDetails);
