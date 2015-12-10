@@ -114,6 +114,13 @@ public class NSPController {
         if (StringUtils.equals(rreDetails.getRreFlagHeld(), Constants.YES)) {
             nspDetails.setRreFlagHeld(rreDetails.getRreFlagHeld());
         } else {
+        	//FBR018 setting RReFlag as No if RRE lower and higher is 000.00
+        	double rrelowertemp= NumberUtils.toDouble(nspDetails.getRreLowerNsp());
+        	double rrehighertemp= NumberUtils.toDouble(nspDetails.getRreHigherNsp());
+        	double zero=0.00;
+        	if( Double.compare(rrelowertemp, zero)==0 && Double.compare(rrehighertemp, zero)==0){
+        		 nspDetails.setRreFlagHeld(Constants.NO);
+        	}
 
         }
     }
